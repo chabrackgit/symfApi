@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employee index{% endblock %}
+
+{% block body %}
+    <h1>Liste des Employés</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>nom</th>
+                <th>prenom</th>
+                <th>email</th>
+                <th>Inscrit depuis</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for employee in employees %}
+            <tr>
+                <td>{{ employee.lastname }}</td>
+                <td>{{ employee.firstname }}</td>
+                <td>{{ employee.email }}</td>
+                <td>{{ employee.createdAt ? employee.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('employee_show', {'id': employee.id}) }}" class="btn btn-primary">show</a>
+                    <a href="{{ path('employee_edit', {'id': employee.id}) }}" class="btn btn-secondary">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('employee_new') }}" class="btn btn-primary">Créer</a>
+{% endblock %}

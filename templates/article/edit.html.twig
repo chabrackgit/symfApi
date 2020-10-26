@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editer Article{% endblock %}
+
+{% block body %}
+    <h1>Edit Article</h1>
+
+    {{ include('article/_form.html.twig', {'button_label': 'Valider'}) }}
+
+    <a href="{{ path('article_index') }}" class="btn btn-primary">Retour à la liste</a>
+
+{% endblock %}

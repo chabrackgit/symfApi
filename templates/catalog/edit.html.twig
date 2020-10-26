@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Catalog{% endblock %}
+
+{% block body %}
+    <h1>Editer Catalogue</h1>
+
+    {{ include('catalog/_form.html.twig', {'button_label': 'Valider'}) }}
+    
+    <a href="{{ path('catalog_index') }}" class="btn btn-primary">Retour à la liste</a>
+
+{% endblock %}

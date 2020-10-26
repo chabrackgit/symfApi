@@ -1,0 +1,6 @@
+<form method="post" action="{{ path('catalog_delete', {'id': catalog.id}) }}" onsubmit="return confirm('Etes-vous sûr(e) de supprimer ce catalogue?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ catalog.id) }}">
+    <br>
+    <button class="btn btn-danger">Supprimer</button>
+</form>

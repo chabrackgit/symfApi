@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CatalogRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\CatalogRepository")
  */
 class Catalog
 {

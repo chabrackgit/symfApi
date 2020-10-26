@@ -6,7 +6,7 @@ use App\Repository\ArticleRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ArticleRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
  */
 class Article
 {

@@ -2,11 +2,17 @@
 
 namespace App\Entity;
 
-use App\Repository\EmployeeRepository;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\EmployeeRepository;
 
 /**
  * @ORM\Entity(repositoryClass=EmployeeRepository::class)
+ * @UniqueEntity(
+ *      fields={"email"},
+ *      message= "Cet email est déja utilisé"
+ * )
  */
 class Employee
 {
@@ -36,6 +42,14 @@ class Employee
      * @ORM\Column(type="string", length=255)
      */
     private $password;
+
+     /**
+     * @Assert\EqualTo(
+     *      propertyPath="password",
+     *      message = "Votre mot de passe doit être identique"
+     * )
+     */
+    private $passwordConfirm;
 
     /**
      * @ORM\Column(type="datetime")
@@ -106,6 +120,26 @@ class Employee
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of passwordConfirm
+     */ 
+    public function getPasswordConfirm()
+    {
+        return $this->passwordConfirm;
+    }
+
+    /**
+     * Set the value of passwordConfirm
+     *
+     * @return  self
+     */ 
+    public function setPasswordConfirm($passwordConfirm)
+    {
+        $this->passwordConfirm = $passwordConfirm;
 
         return $this;
     }

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Article{% endblock %}
+
+{% block body %}
+    <h1>Article</h1>
+    <br>
+    <div class="row">
+        <div class="col-3">
+            <img src="" alt="..." class="img-thumbnail">
+        </div>
+        <div class="col-9">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Id</th>
+                        <td>{{ article.id }}</td>
+                    </tr>
+                    <tr>
+                        <th>Reference</th>
+                        <td>{{ article.reference }}</td>
+                    </tr>
+                    <tr>
+                        <th>Description</th>
+                        <td>{{ article.description }}</td>
+                    </tr>
+                    <tr>
+                        <th>Catégorie</th>
+                        <td>{{ article.catalog.reference }}</td>
+                    </tr>
+                    <tr>
+                        <th>Créé le </th>
+                        <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                    <tr>
+                        <th>Mise à jour le</th>
+                        <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a href="{{ path('article_index') }}" class="btn btn-primary">Retour à la liste</a>
+
+    {{ include('article/_delete_form.html.twig') }}
+{% endblock %}
