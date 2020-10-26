@@ -1,32 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Employee{% endblock %}
+{% block title %}Informations employé(e){% endblock %}
 
 {% block body %}
-    <h1>Bonjour, {{ employee.firstname }}</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Nom</th>
-                <td>{{ employee.lastname }}</td>
-            </tr>
-            <tr>
-                <th>Prénom</th>
-                <td>{{ employee.firstname }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ employee.email }}</td>
-            </tr>
-            <tr>
-                <th>Inscrit depuis</th>
-                <td>{{ employee.createdAt ? employee.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('employee_index') }}" class="btn btn-primary">Retour</a>
-
-    {{ include('employee/_delete_form.html.twig') }}
+    <div class="row">
+        <div class="col-6">
+            <h1>{{ employee.lastname }}, {{ employee.firstname }}</h1> 
+        </div>
+        <div class="col-6 my-auto">
+            <a href="{{ path('employee_index') }}" class="btn btn-primary float-right">Retour à la liste</a>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-3">
+            <img src="" alt="..." class="img-thumbnail">
+        </div>
+        <div class="col-9">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ employee.lastname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prénom</th>
+                        <td>{{ employee.firstname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ employee.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Inscrit depuis</th>
+                        <td>{{ employee.createdAt ? employee.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {{ include('employee/_delete_form.html.twig') }}
+        </div>
+    </div>
 {% endblock %}

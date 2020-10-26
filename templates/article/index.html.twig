@@ -4,15 +4,14 @@
 
 {% block body %}
     <h1>Listes des articles</h1>
-
+    <br>
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Reference</th>
                 <th>Description</th>
-                <th>Créé le </th>
-                <th>Mise à jour</th>
+                <th>Catalogue</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -22,8 +21,7 @@
                 <td>{{ article.id }}</td>
                 <td>{{ article.reference }}</td>
                 <td>{{ article.description }}</td>
-                <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ article.catalog.reference }}</td>
                 <td>
                     <a href="{{ path('article_show', {'id': article.id}) }}" class="btn btn-primary">détails</a>
                     <a href="{{ path('article_edit', {'id': article.id}) }}" class="btn btn-secondary">editer</a>

@@ -3,7 +3,14 @@
 {% block title %}Article{% endblock %}
 
 {% block body %}
-    <h1>Article</h1>
+    <div class="row">
+        <div class="col-6">
+            <h1>Article</h1> 
+        </div>
+        <div class="col-6 my-auto">
+            <a href="{{ path('article_index') }}" class="btn btn-primary float-right">Retour à la liste</a>
+        </div>
+    </div>
     <br>
     <div class="row">
         <div class="col-3">
@@ -38,9 +45,9 @@
                     </tr>
                 </tbody>
             </table>
+            {{ include('article/_delete_form.html.twig') }}
         </div>
     </div>
-    <a href="{{ path('article_index') }}" class="btn btn-primary">Retour à la liste</a>
 
-    {{ include('article/_delete_form.html.twig') }}
+    
 {% endblock %}
