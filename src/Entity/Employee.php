@@ -6,6 +6,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\EmployeeRepository;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=EmployeeRepository::class)
@@ -14,8 +15,21 @@ use App\Repository\EmployeeRepository;
  *      message= "Cet email est déja utilisé"
  * )
  */
-class Employee
+class Employee implements UserInterface, \Serializable
 {
+
+    const ROLE_ADMIN     = ['ROLE_ADMIN'];
+    const ROLE_MANAGER   = ['ROLE_MANAGER'];
+    const ROLE_USER      = ['ROLE_USER'];
+    const DEFAULT_ROLE   = ['ROLE_USER'];
+
+
+    public function __construct()
+    {
+        $this->roles = self::DEFAULT_ROLE;
+    }
+
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -52,6 +66,11 @@ class Employee
     private $passwordConfirm;
 
     /**
+     * @ORM\Column(type="simple_array", length=255, nullable=true)
+     */
+    private $roles;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $createdAt;
@@ -70,6 +89,11 @@ class Employee
      * @ORM\Column(type="integer")
      */
     private $updatedUser;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
 
     public function getId(): ?int
     {
@@ -190,5 +214,67 @@ class Employee
         $this->updatedUser = $updatedUser;
 
         return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+    
+    /**
+     * getRoles
+     *
+     * @return (Role|string)[] roles
+     */
+    public function getRoles(): array
+    {
+        return $this->roles;
+    }
+    
+    /**
+     * Affecte les rôles de l'utilisateur
+     *
+     * @param  array $roles
+     * @return self
+     */
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+        return $this;
+    }
+
+    public function getSalt()
+    {
+        return null; 
+    }
+
+    public function eraseCredentials()
+    {
+        
+    }
+
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->username,
+            $this->password
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list(
+            $this->id,
+            $this->username,
+            $this->password
+            ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 }

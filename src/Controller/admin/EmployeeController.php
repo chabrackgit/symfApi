@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\admin;
 
 use DateTime;
 use App\Entity\Employee;
@@ -15,7 +15,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 /**
- * @Route("/employee")
+ * @Route("/admin/employee")
  */
 class EmployeeController extends AbstractController
 {

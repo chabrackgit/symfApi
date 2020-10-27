@@ -14,6 +14,7 @@ class EmployeeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('username')
             ->add('lastname')
             ->add('firstname')
             ->add('email', EmailType::class)

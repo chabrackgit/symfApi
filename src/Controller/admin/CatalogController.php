@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\admin;
 
 use App\Entity\Catalog;
 use App\Form\CatalogType;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/catalog")
+ * @Route("/admin/catalog")
  */
 class CatalogController extends AbstractController
 {
@@ -35,6 +35,12 @@ class CatalogController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $catalog->setcreatedAt(new \DateTime())
+                    ->setUpdatedAt(new \DateTime())
+                    ->setCreatedUser(27)
+                    ->setUpdatedUser(27);
+
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($catalog);
             $entityManager->flush();
@@ -67,6 +73,10 @@ class CatalogController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $catalog->setUpdatedAt(new \DateTime())
+                    ->setCreatedUser(27)
+                    ->setUpdatedUser(27);
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('catalog_index');

@@ -18,6 +18,9 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
+                        <a class="nav-link" href="{{ path('best') }}">Nos Meilleurs Ventes</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="{{ path('catalog_index') }}">Catalogue</a>
                     </li>
                     <li class="nav-item">
@@ -32,14 +35,14 @@
                         <a class="nav-link" href="#">S'inscrire</a>
                     </span>
                     <span class="navbar-text">
-                        <a class="nav-link" href="#">Connexion</a>
+                        <a class="nav-link" href="{{ path('login') }}">Connexion</a>
                     </span>
                 {% else %}
                     <span class="navbar-text">
                         <a class="nav-link" href="#">Editer Profil</a>
                     </span>
                     <span class="navbar-text">
-                        <a class="nav-link" href="#">Deconnexion</a>
+                        <a class="nav-link" href="{{ path('logout') }}">Deconnexion</a>
                     </span>
                 {% endif %}
             </div>
