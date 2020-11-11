@@ -1,20 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BestController!{% endblock %}
+{% block title %}Nos Meilleurs ventes{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="jumbotron">
+        <div class="container">
+            {{ form_start(form) }}
+            <div class="form-row">
+                <div class="col-5">
+                    {{ form_row(form.info) }}
+                </div>
+                <div class="col-5 ml-3">
+                    {{ form_row(form.infoCatalog) }}
+                </div>
+                <div class="col-1 ml-3">
+                    <button class="btn btn-primary">
+                        <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-search" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                            <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/laragon/www/symfback/src/Controller/BestController.php'|file_link(0) }}">src/Controller/BestController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/laragon/www/symfback/templates/best/index.html.twig'|file_link(0) }}">templates/best/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="container mt-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Reference</th>
+                    <th>Description</th>
+                    <th>Catalogue</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for article in articles %}
+                <tr>
+                    <td>{{ article.id }}</td>
+                    <td><a href="{{ path('product.show', {id: article.id, slug: article.slug})}}">{{ article.reference }}</a></td>
+                    <td>{{ article.description }}</td>
+                    <td>{{ article.catalog.reference }}</td>
+                    <td>
+                        <a href="{{ path('product.show', {id: article.id, slug: article.slug})}}" class="btn btn-primary">détails</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucune information correspondant à votre recherche : <b>{{ recherche.info }}</b></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="pagination justify-content-center mt-4">
+            {{ knp_pagination_render(articles) }}
+        </div>
+    </div>
 {% endblock %}

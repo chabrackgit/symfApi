@@ -2,11 +2,18 @@
 
 namespace App\Entity;
 
-use App\Repository\ArticleRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\ArticleRepository;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Cocur\Slugify\Slugify;
+
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
+ * @Vich\Uploadable()
  */
 class Article
 {
@@ -27,10 +34,30 @@ class Article
      */
     private $description;
 
+    
+    /**
+     * filename
+     *
+     * @var string|null
+     * @ORM\Column(type="string", length=255)
+     */
+    private $filename;
+
+    /**
+     * imageFile
+     *
+     * @var File|null
+     * @Vich\UploadableField(mapping="article_image", fileNameProperty="filename")
+     * @Assert\Image(
+     *      mimeTypes="image/jpeg" 
+     * )
+     */
+    private $imageFile;
+
     /**
      * @ORM\Column(type="datetime")
      */
-    private $createdAt;
+    private $createdAt; 
 
     /**
      * @ORM\Column(type="datetime")
@@ -67,6 +94,11 @@ class Article
         $this->reference = $reference;
 
         return $this;
+    }
+
+    public function getSlug() : ?string
+    {
+        return (new Slugify())->slugify($this->reference);
     }
 
     public function getDescription(): ?string
@@ -138,6 +170,56 @@ class Article
     {
         $this->catalog = $catalog;
 
+        return $this;
+    }
+
+    /**
+     * Get filename
+     *
+     * @return  string|null
+     */ 
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    /**
+     * Set filename
+     *
+     * @param  string|null  $filename  filename
+     *
+     * @return  Article
+     */ 
+    public function setFilename(?string $filename): Article
+    {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    /**
+     * Get imageFile
+     *
+     * @return  File|null
+     */ 
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * Set imageFile
+     *
+     * @param  File|null  $imageFile  imageFile
+     *
+     * @return  Article
+     */ 
+    public function setImageFile(?File $imageFile): Article
+    {
+        $this->imageFile = $imageFile;
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTime('now');
+        }
         return $this;
     }
 }

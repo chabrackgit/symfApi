@@ -18,29 +18,39 @@
             <div class="collapse navbar-collapse" id="navbarText">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('best') }}">Nos Meilleurs Ventes</a>
+                        <a class="nav-link" href="{{ path('products') }}">Nos produits</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('catalog_index') }}">Catalogue</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('article_index') }}">Articles</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ path('employee_index') }}">Espace RH</a>
-                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('employee_index') }}">Espace RH</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('catalog_index') }}">Catalogue</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('article_index') }}">Articles</a>
+                        </li>
+                    {% elseif is_granted('ROLE_MANAGER') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('catalog_index') }}">Catalogue</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('article_index') }}">Articles</a>
+                        </li>
+                    {% elseif is_granted('ROLE_USER') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path('article_index') }}">Articles</a>
+                        </li>
+                    {% endif %}                    
                 </ul>
                 {% if not app.user %}
                     <span class="navbar-text">
-                        <a class="nav-link" href="#">S'inscrire</a>
+                        <a class="nav-link" href="{{ path('registration') }}">S'inscrire</a>
                     </span>
                     <span class="navbar-text">
                         <a class="nav-link" href="{{ path('login') }}">Connexion</a>
                     </span>
                 {% else %}
-                    <span class="navbar-text">
-                        <a class="nav-link" href="#">Editer Profil</a>
-                    </span>
                     <span class="navbar-text">
                         <a class="nav-link" href="{{ path('logout') }}">Deconnexion</a>
                     </span>

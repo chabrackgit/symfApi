@@ -1,32 +1,51 @@
 <?php
 
-namespace App\Controller\admin;
+namespace App\Controller\user;
 
-use DateTime;
+
 use App\Entity\Article;
+use App\Entity\ArticleSearchUser;
 use App\Entity\Catalog;
-use App\Form\ArticleType;
+use App\Form\ArticleSearchUserType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/admin/article")
+ * @Route("/profile/article")
  */
 class ArticleController extends AbstractController
 {
     /**
      * @Route("/", name="article_index", methods={"GET"})
      */
-    public function index(ArticleRepository $articleRepository): Response
+    public function index(PaginatorInterface $paginator,ArticleRepository $articleRepository, Request $request): Response
     {
+
+        $recherche = new ArticleSearchUser();
+
+        $form = $this->createForm(ArticleSearchUserType::class, $recherche);
+
+        $form->handleRequest(($request));
+
+        $products = $paginator->paginate(
+            $articleRepository->findArticleSearchUser($recherche),
+            $request->query->getInt('page', 1),
+            10
+        );
+
         return $this->render('article/index.html.twig', [
-            'articles' => $articleRepository->findAll(),
+            'articles' => $products,
+            'recherche' => $recherche,
+            'form' => $form->createView()
         ]);
     }
 
@@ -37,13 +56,20 @@ class ArticleController extends AbstractController
     {
         $article = new Article();
         $form = $this->createFormBuilder($article)
-                     ->add('reference')
+                     ->add('reference', TextType::class, [
+                         'label'=>'Titre'
+                     ])
                      ->add('description')
                      ->add('catalog', EntityType::class, [
+                         'label' => 'Catalogue',
                         'class' => Catalog::class,
                         'choice_label' => 'reference'])
-                    ->add('save', SubmitType::class, ['label' => 'Créer article'])
-                    ->getForm();
+                     ->add('imageFile', FileType::class, [
+                         'label' =>'Image',
+                        'required' => false
+                     ])
+                     ->add('save', SubmitType::class, ['label' => 'Créer article'])
+                     ->getForm();
 
         $form->handleRequest($request);
 
@@ -87,12 +113,16 @@ class ArticleController extends AbstractController
                      ->add('catalog', EntityType::class, [
                         'class' => Catalog::class,
                         'choice_label' => 'reference'])
+                     ->add('imageFile', FileType::class, [
+                        'required' => false
+                        ])
                     ->add('save', SubmitType::class, ['label' => 'Mettre à jour'])
                     ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $article->setUpdatedAt(new \DateTime());
             $this->getDoctrine()->getManager()->flush();
 

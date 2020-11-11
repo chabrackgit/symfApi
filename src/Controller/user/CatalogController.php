@@ -1,21 +1,24 @@
 <?php
 
-namespace App\Controller\admin;
+namespace App\Controller\user;
 
 use App\Entity\Catalog;
 use App\Form\CatalogType;
 use App\Repository\CatalogRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/admin/catalog")
+ * @IsGranted("ROLE_MANAGER")
+ * @Route("/profile/catalog")
  */
 class CatalogController extends AbstractController
 {
     /**
+     * 
      * @Route("/", name="catalog_index", methods={"GET"})
      */
     public function index(CatalogRepository $catalogRepository): Response

@@ -4,10 +4,28 @@
 
 {% block body %}
     <div class="jumbotron">
-    <h1 class="display-4">Bienvenue dans l'AppliCbk</h1>
+    <h1 class="display-4">Bienvenue dans l'AppliCbk, {% if app.user %}{{ (app.user.firstname | capitalize) }} {% endif %}</h1>
     <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
     <hr class="my-4">
     <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <a class="btn btn-primary btn-lg" href="{{path('article_index') }}" role="button">En Savoir +</a>
+    <a class="btn btn-primary btn-lg" href="{{path('products') }}" role="button">En Savoir +</a>
+    </div>
+
+    <div class="container mt-4">
+        <h3>Nos Derniers Ajouts</h3>
+        <div class="row">
+            {% for article in articles %}
+            <div class="card ml-5 mb-4" style="width: 14rem;">
+                {% if article.filename %}
+                <img src="{{ vich_uploader_asset(article, 'imageFile') | imagine_filter('thumb') }}" width="280px" height"100px" alt="..." class="img-thumbnail">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ article.reference }}</h5>
+                    <p class="card-text">{{ article.description }}</p>
+                    <a href="{{ path('product.show', {id: article.id, slug: article.slug})}}" class="btn btn-primary">Details</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

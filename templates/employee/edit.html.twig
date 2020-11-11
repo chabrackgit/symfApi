@@ -3,11 +3,20 @@
 {% block title %}Edit Employee{% endblock %}
 
 {% block body %}
-    <h1>Edit Employee</h1>
+    <div container="mt-4 w-25">
+        <h1>Edit Employe</h1>
+        <div class="form-group mt-3 ">
+            {{ form_row(form.email, {'label': 'Email', 'attr': {'placeholder':'{{ app.user.email}}'}}) }}
+            {{ form_row(form.lastname, {'label': 'Nom', 'attr': {'placeholder':'DEVILLE'}}) }}
+            {{ form_row(form.firstname, {'label': 'Prénom', 'attr': {'placeholder':'fabien'}}) }}
+        </div>
+        
 
-    {{ include('employee/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('employee_index') }}">back to list</a>
+        <button type="submit" class="btn btn-primary">Modifier</button>
+        
+        <a href="{{ path('employee_index') }}">Retour à la liste</a>
 
-    {{ include('employee/_delete_form.html.twig') }}
+        {{ include('employee/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

@@ -3,8 +3,12 @@
 namespace App\Repository;
 
 use App\Entity\Article;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
+use App\Entity\ArticleSearch;
+use Doctrine\ORM\QueryBuilder;
+use App\Entity\ArticleSearchUser;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Article|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +21,73 @@ class ArticleRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Article::class);
+    }
+    
+    /**
+     * findAllVisible
+     *
+     * @return Query[]
+     */
+    public function findAllVisibleQuery(ArticleSearch $search): Query
+    {
+        $query =  $this->findQuery();
+
+        if($search->getInfo()){
+            
+            $query = $query
+                        ->andWhere('p.reference LIKE :info')
+                        ->setParameter('info', '%'.$search->getInfo().'%');
+        }
+
+        if($search->getInfoCatalog()){
+            $query = $query
+                        ->andWhere('p.catalog = :id')
+                        ->setParameter('id', $search->getInfoCatalog());
+            
+        }
+
+        return $query->getQuery();  
+    }
+
+    /**
+     * findAllVisible
+     *
+     * @return Query[]
+     */
+    public function findArticleSearchUser(ArticleSearchUser $search): Query
+    {
+        $query =  $this->findQuery();
+
+        if($search->getInfo()){
+            
+            $query = $query
+                        ->andWhere('p.reference LIKE :info')
+                        ->setParameter('info', '%'.$search->getInfo().'%');
+        }
+
+        return $query->getQuery();  
+    }
+
+
+
+    /**
+     * findLatest
+     *
+     * @return Article[]
+     */
+    public function findLatest(): array
+    {
+        return $this->findQuery()
+                    ->orderBy('p.id', 'DESC')
+                    ->setMaxResults(8)
+                    ->getQuery()
+                    ->getResult();
+    }
+
+
+    private function findQuery(): QueryBuilder
+    {
+        return $this->createQueryBuilder('p');
     }
 
     // /**

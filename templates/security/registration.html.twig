@@ -4,7 +4,7 @@
 
 {% block body %}
     <form action="#" method="POST">
-    <div class="container">
+    <div class="container mt-4 w-50">
         <div class="form-group">
        
             <h1>Inscription</h1>
@@ -18,8 +18,9 @@
             {{ form_row(form.password, {'label': 'Mot de passe', 'attr': {'placeholder':'******'}}) }}
             {{ form_row(form.passwordConfirm, {'label': 'Confirmez votre mot de passe', 'attr': {'placeholder':'******'}}) }}
 
-
-            <button type="submit" class="btn btn-primary">Inscription</button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">Inscription</button>
+            </div>
             {{ form_end(form) }}
         </div>
     </div>

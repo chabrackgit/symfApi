@@ -15,6 +15,7 @@ class ArticleType extends AbstractType
             ->add('reference')
             ->add('description')
             ->add('catalog')
+            
         ;
     }
 
