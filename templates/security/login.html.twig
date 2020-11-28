@@ -3,27 +3,50 @@
 {% block title %}Espace Connexion{% endblock %}
 
 {% block body %}
-    <div class="container mt-4 w-25">
+    <div class="row">
+        <div class="col-7" style="height: 530px">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-4 text-center">Connexion</h1>
+                    <p class="lead text-center">Connectez-vous afin de profiter de toutes les fonctionnalités du site. Si vous n'avez pas de compte, inscrivez-vous <a href={{ path('registration') }}>ici</a></p>
+                </div>
 
-        {% if error %}
-            <div class="alert alert-danger">
-                {{ error.messageKey | trans(error.messagedata, 'security') }}
+                <div class="container mt-4 w-50">
+                    {% if error %}
+                        <div class="alert alert-danger">
+                            {{ error.messageKey | trans(error.messagedata, 'security') }}
+                        </div>
+                    {% endif %}
+                    <form action="{{ path ('login') }} " method="post">
+                        <div class="form-group text-center">
+                            <label for="username">Utilisateur</label>
+                            <input type="text" id="username" name="_username" class="form-control" value={{ last_username }}>
+                        </div>
+                        <div class="form-group text-center">
+                            <label for="password">Mot de passe</label>
+                            <input type="password" id="password" name="_password" class="form-control">
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">connexion</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        {% endif %}
-        
-
-        <form action="{{ path ('login') }} " method="post">
-            <div class="form-group">
-                <label for="username">Nom d'utilisateur</label>
-                <input type="text" id="username" name="_username" class="form-control" value={{ last_username }}>
+        </div>
+        <div class="col-5" style="height: 530px">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-4 text-center">Inscription</h1>
+                    <p class="lead text-center">Vous n'avez pas encore de compte, en deux trois clics, créer ton compte pour nous rejoindre, <a href={{ path('registration') }}>ici</a></p>
+                    <hr class="my-4">
+                    <p class="text-center">Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugit, molestias porro vel doloribus, asperiores rerum eligendi est aliquam</p>
+                    <hr class="my-2">
+                    <p class="lead text-center mt-3">N'hésitez plus, rejoingnez l'équipeCbk</p>
+                </div>
+                <div class="text-center">
+                    <a href={{ path('registration') }} class="btn btn-primary">inscription</a>
+                </div>
             </div>
-            <div class="form-group">
-                <label for="password">Mot de passe</label>
-                <input type="password" id="password" name="_password" class="form-control">
-            </div>
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Se connecter</button>
-            </div>
-        </form>
+        </div>
     </div>
 {% endblock %}

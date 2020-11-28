@@ -34,6 +34,7 @@
                     <th>Reference</th>
                     <th>Description</th>
                     <th>Catalogue</th>
+                    <th>Prix</th>
                     <th>actions</th>
                 </tr>
             </thead>
@@ -44,6 +45,7 @@
                     <td><a href="{{ path('product.show', {id: article.id, slug: article.slug})}}">{{ article.reference }}</a></td>
                     <td>{{ article.description }}</td>
                     <td>{{ article.catalog.reference }}</td>
+                    <td>{{ article.price }} €</td>
                     <td>
                         <a href="{{ path('product.show', {id: article.id, slug: article.slug})}}" class="btn btn-primary">détails</a>
                     </td>

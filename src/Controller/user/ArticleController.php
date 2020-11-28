@@ -4,19 +4,21 @@ namespace App\Controller\user;
 
 
 use App\Entity\Article;
-use App\Entity\ArticleSearchUser;
 use App\Entity\Catalog;
+use App\Entity\ArticleSearchUser;
 use App\Form\ArticleSearchUserType;
 use App\Repository\ArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
@@ -52,7 +54,7 @@ class ArticleController extends AbstractController
     /**
      * @Route("/new", name="article_new", methods={"GET","POST"})
      */
-    public function new(Request $request, EntityManagerInterface $entityManager)
+    public function new(Request $request, EntityManagerInterface $entityManager, UserInterface $user)
     {
         $article = new Article();
         $form = $this->createFormBuilder($article)
@@ -64,6 +66,9 @@ class ArticleController extends AbstractController
                          'label' => 'Catalogue',
                         'class' => Catalog::class,
                         'choice_label' => 'reference'])
+                     ->add('price', MoneyType::class, [
+                        'label'=>'Prix'
+                     ])
                      ->add('imageFile', FileType::class, [
                          'label' =>'Image',
                         'required' => false
@@ -76,8 +81,8 @@ class ArticleController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $article->setCreatedAt(new \DateTime())
                     ->setUpdatedAt(new \DateTime())
-                    ->setCreatedUser(3)
-                    ->setUpdatedUser(3);
+                    ->setCreatedUser($this->getUser()->getId())
+                    ->setUpdatedUser($this->getUser()->getId());
             $entityManager->persist($article);
             $entityManager->flush();
 

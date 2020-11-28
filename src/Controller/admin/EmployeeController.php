@@ -43,9 +43,9 @@ class EmployeeController extends AbstractController
 
             
             $employee->setCreatedAt(new \DateTime());
-            $employee->setUpdatedAt(new \DateTime());
-            $employee->setCreatedUser(3);
-            $employee->setUpdatedUser(3);
+            $employee->setUpdatedAt(new \DateTime());   
+            $employee->setCreatedUser(1);
+            $employee->setUpdatedUser(1);
             $entityManager->persist($employee);
             $entityManager->flush();
 

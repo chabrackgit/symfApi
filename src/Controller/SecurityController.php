@@ -32,8 +32,8 @@ class SecurityController extends AbstractController
             
             $employee->setCreatedAt(new \DateTime())
                      ->setUpdatedAt(new \DateTime())
-                     ->setCreatedUser(3)
-                     ->setUpdatedUser(3);
+                     ->setCreatedUser($this->getUser()->getId())
+                     ->setUpdatedUser($this->getUser()->getId());
 
 
             $entityManager->persist($employee);

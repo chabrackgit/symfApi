@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArticleRepository;
@@ -78,6 +80,22 @@ class Article
      * @ORM\ManyToOne(targetEntity=Catalog::class, inversedBy="articles")
      */
     private $catalog;
+
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $price;
+
+    /**
+     * @ORM\OneToMany(targetEntity=CommandeDetail::class, mappedBy="article")
+     */
+    private $commandeDetails;
+
+    public function __construct()
+    {
+        $this->commandeDetails = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -220,6 +238,48 @@ class Article
         if ($this->imageFile instanceof UploadedFile) {
             $this->updatedAt = new \DateTime('now');
         }
+        return $this;
+    }
+
+    public function getPrice(): ?float
+    {
+        return $this->price;
+    }
+
+    public function setPrice(float $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CommandeDetail[]
+     */
+    public function getCommandeDetails(): Collection
+    {
+        return $this->commandeDetails;
+    }
+
+    public function addCommandeDetail(CommandeDetail $commandeDetail): self
+    {
+        if (!$this->commandeDetails->contains($commandeDetail)) {
+            $this->commandeDetails[] = $commandeDetail;
+            $commandeDetail->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommandeDetail(CommandeDetail $commandeDetail): self
+    {
+        if ($this->commandeDetails->removeElement($commandeDetail)) {
+            // set the owning side to null (unless already changed)
+            if ($commandeDetail->getArticle() === $this) {
+                $commandeDetail->setArticle(null);
+            }
+        }
+
         return $this;
     }
 }

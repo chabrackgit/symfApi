@@ -4,24 +4,47 @@
 
 {% block body %}
     <form action="#" method="POST">
-    <div class="container mt-4 w-50">
-        <div class="form-group">
-       
-            <h1>Inscription</h1>
+        <div class="container ">
+            <div class="jumbotron jumbotron-fluid">
+                <div class="container">
+                    <h1 class="display-4 text-center">Inscription</h1>
+                    <p class="lead text-center">Vous n'avez pas encore de compte, en deux trois clics, créer ton compte pour nous rejoindre, <a href={{ path('registration') }}>ici</a></p>
+                </div>
 
-            {{ form_start(form) }}
-            
-            {{ form_row(form.email, {'label': 'Email', 'attr': {'placeholder':'example@email.fr'}}) }}
-            {{ form_row(form.username, {'label': 'Nom utilisateur', 'attr': {'placeholder':'julien22'}}) }}
-            {{ form_row(form.lastname, {'label': 'Nom', 'attr': {'placeholder':'DEVILLE'}}) }}
-            {{ form_row(form.firstname, {'label': 'Prénom', 'attr': {'placeholder':'fabien'}}) }}
-            {{ form_row(form.password, {'label': 'Mot de passe', 'attr': {'placeholder':'******'}}) }}
-            {{ form_row(form.passwordConfirm, {'label': 'Confirmez votre mot de passe', 'attr': {'placeholder':'******'}}) }}
-
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Inscription</button>
+                <div class="container mt-4 w-75">
+                    <div class="form-group">
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_row(form.email, {'label': 'Email', 'attr': {'placeholder':'example@email.fr'}}) }}
+                            </div>
+                            <div class="col-6">
+                                {{ form_row(form.username, {'label': 'Nom utilisateur', 'attr': {'placeholder':'julien22'}}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_row(form.lastname, {'label': 'Nom', 'attr': {'placeholder':'DEVILLE'}}) }}
+                            </div>
+                            <div class="col-6">
+                                {{ form_row(form.firstname, {'label': 'Prénom', 'attr': {'placeholder':'fabien'}}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_row(form.password, {'label': 'Mot de passe', 'attr': {'placeholder':'******'}}) }}
+                            </div>
+                            <div class="col-6">
+                                {{ form_row(form.passwordConfirm, {'label': 'Confirmez votre mot de passe', 'attr': {'placeholder':'******'}}) }}
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Inscription</button>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
             </div>
-            {{ form_end(form) }}
         </div>
     </div>
 </form>
