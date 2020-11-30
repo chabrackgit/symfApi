@@ -3,7 +3,7 @@
 namespace App\DataFixtures;
 
 use Faker\Factory;
-use App\Entity\Employee;
+use App\Entity\User;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -26,7 +26,7 @@ class AppFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $this->manager = $manager;
-        $this->loadEmployee();
+        $this->loadUser();
 
         $manager->flush();
     }
@@ -36,71 +36,29 @@ class AppFixtures extends Fixture
      *
      * @return void
      */
-    public function loadEmployee()
+    public function loadUser()
     {
         for($i = 1; $i<10; $i++){
-            $employee = new Employee();
+            $user = new User();
 
-            $employee->setFirstname($this->faker->firstNameMale());
-            $employee->setLastname($this->faker->lastName());
-            $employee->setUsername('employe'.$i);                       
+            $user->setFirstname($this->faker->firstNameMale())
+                ->setLastname($this->faker->lastName())
+                ->setUsername('user'.$i);                       
 
-            $employee->setEmail($employee->getFirstname().'.'.$employee->getLastname().'@test.fr');
+            $user->setEmail($user->getFirstname().'.'.$user->getLastname().'@test.fr');
 
 
-            $hash = $this->encoder->encodePassword($employee, $employee->getUsername());
-            $employee->setPassword($hash)
+            $hash = $this->encoder->encodePassword($user, $user->getUsername());
+            $user->setPassword($hash)
                  ->setCreatedAt(new \DateTime())
                  ->setUpdatedAt(new \DateTime())
                  ->setCreatedUser(1)
                  ->setUpdatedUser(1);
 
-            $this->addReference("employe ".$i, $employee);
+            $this->addReference("employe ".$i, $user);
 
-            $this->manager->persist($employee);
+            $this->manager->persist($user);
         } 
         
-
-        $employee = new Employee();
-
-        $employee->setUsername('admin');
-        
-        $hash = $this->encoder->encodePassword($employee, $employee->getUsername());
-
-        $employee
-             ->setLastname('BOSS')
-             ->setFirstname('Admin')
-             ->setEmail('admin@test.fr')
-             ->setPassword($hash)
-             ->setRoles(EMPLOYEE::ROLE_ADMIN)
-             ->setCreatedAt(new \DateTime())
-             ->setUpdatedAt(new \DateTime())
-             ->setCreatedUser(1)
-             ->setUpdatedUser(1);
-
-        $this->manager->persist($employee);
-
-        
-        $employee = new Employee();
-
-        $employee->setUsername('manager');
-        
-        $hash = $this->encoder->encodePassword($employee, $employee->getUsername());
-
-        $employee
-             ->setLastname('MANAGER')
-             ->setFirstname('Manager')  
-             ->setEmail('manager@test.fr')
-             ->setPassword($hash)
-             ->setRoles(EMPLOYEE::ROLE_MANAGER)
-             ->setCreatedAt(new \DateTime())
-             ->setUpdatedAt(new \DateTime())
-             ->setCreatedUser(1)
-             ->setUpdatedUser(1);
-
-        $this->manager->persist($employee);
-
-        $this->manager->flush();
-
     }
 }

@@ -4,7 +4,7 @@ security:
     providers:
         from_database:
             entity:
-                class: App\Entity\Employee
+                class: App\Entity\User
                 property: username
     firewalls:
         dev:
@@ -36,6 +36,6 @@ security:
         ROLE_ADMIN: ROLE_MANAGER
 
     encoders:
-        App\Entity\Employee:
+        App\Entity\User:
             algorithm: bcrypt
             cost: 12

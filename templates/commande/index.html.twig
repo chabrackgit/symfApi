@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande index{% endblock %}
+
+{% block body %}
+    <h1>Liste des commandes</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Reference</th>
+                <th>Article</th>
+                <th>Prix Unitaire</th>
+                <th>Qté</th>
+                <th>Total</th>
+                <th>Créé le</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for commande in commandes %}
+            <tr>
+                <td>{{ commande.reference }}</td>
+                <td>{{ commande.article.reference }}</td>
+                <td>{{ commande.price }} €</td>
+                <td>{{ commande.quantity }}</td>
+                <td>{{ commande.total }} €</td>
+                <td>{{ commande.createdAt ? commande.createdAt|date('d-m-Y H:i:s') : ''}}</td>
+                <td>
+                    <a href="{{ path('commande_show', {'id': commande.id}) }}" class="btn btn-primary">Détails</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

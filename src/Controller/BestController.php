@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\ArticleSearch;
 use App\Form\ArticleSearchType;
 use App\Repository\ArticleRepository;
+use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -44,7 +45,7 @@ class BestController extends AbstractController
     /**
      * @Route("/products/{slug}-{id}", name="product.show", requirements={"slug": "[a-z0-9\-]*"})
      */
-    public function show(Article $article, $slug)
+    public function show(Article $article, UserRepository $userRepository, $slug)
     {
         if($article->getSlug() !== $slug){
             return $this->redirectToRoute('product.show', [
@@ -53,8 +54,11 @@ class BestController extends AbstractController
             ], 301);
         }
 
+        $vendor = $userRepository->find($article->getCreatedUser());
+
         return $this->render('best/show.html.twig', [
-            'article' => $article
+            'article' => $article,
+            'vendor' => $vendor
         ]);
     }
 }

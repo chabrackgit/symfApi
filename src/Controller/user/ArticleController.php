@@ -59,18 +59,18 @@ class ArticleController extends AbstractController
         $article = new Article();
         $form = $this->createFormBuilder($article)
                      ->add('reference', TextType::class, [
-                         'label'=>'Titre'
+                        'label'=>'Titre'
                      ])
                      ->add('description')
                      ->add('catalog', EntityType::class, [
-                         'label' => 'Catalogue',
+                        'label' => 'Catalogue',
                         'class' => Catalog::class,
                         'choice_label' => 'reference'])
                      ->add('price', MoneyType::class, [
                         'label'=>'Prix'
                      ])
                      ->add('imageFile', FileType::class, [
-                         'label' =>'Image',
+                        'label' =>'Image (facultatif)',
                         'required' => false
                      ])
                      ->add('save', SubmitType::class, ['label' => 'Créer article'])
@@ -113,14 +113,21 @@ class ArticleController extends AbstractController
         $article = $repoArticle->find($request->get('id'));
 
         $form = $this->createFormBuilder($article)
-                     ->add('reference')
-                     ->add('description')
-                     ->add('catalog', EntityType::class, [
+                    ->add('reference', TextType::class, [
+                        'label'=>'Titre'
+                    ])
+                    ->add('description')
+                    ->add('catalog', EntityType::class, [
+                        'label' => 'Catalogue',
                         'class' => Catalog::class,
                         'choice_label' => 'reference'])
-                     ->add('imageFile', FileType::class, [
+                    ->add('price', MoneyType::class, [
+                        'label'=>'Prix'
+                    ])
+                    ->add('imageFile', FileType::class, [
+                        'label' =>'Image',
                         'required' => false
-                        ])
+                    ])
                     ->add('save', SubmitType::class, ['label' => 'Mettre à jour'])
                     ->getForm();
 

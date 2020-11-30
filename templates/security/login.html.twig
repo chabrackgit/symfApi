@@ -4,13 +4,12 @@
 
 {% block body %}
     <div class="row">
-        <div class="col-7" style="height: 530px">
-            <div class="jumbotron jumbotron-fluid">
+        <div class="col-7">
+            <div class="jumbotron jumbotron-fluid rounded">
                 <div class="container">
                     <h1 class="display-4 text-center">Connexion</h1>
                     <p class="lead text-center">Connectez-vous afin de profiter de toutes les fonctionnalités du site. Si vous n'avez pas de compte, inscrivez-vous <a href={{ path('registration') }}>ici</a></p>
                 </div>
-
                 <div class="container mt-4 w-50">
                     {% if error %}
                         <div class="alert alert-danger">
@@ -33,8 +32,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-5" style="height: 530px">
-            <div class="jumbotron jumbotron-fluid">
+        <div class="col-5" style="height:530px;">
+            <div class="jumbotron jumbotron-fluid roun">
                 <div class="container">
                     <h1 class="display-4 text-center">Inscription</h1>
                     <p class="lead text-center">Vous n'avez pas encore de compte, en deux trois clics, créer ton compte pour nous rejoindre, <a href={{ path('registration') }}>ici</a></p>

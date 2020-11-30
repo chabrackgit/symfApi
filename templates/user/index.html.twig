@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des utilisateurs{% endblock %}
+
+{% block body %}
+    <h1>Liste des utlisateurs</h1>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Email</th>
+                <th>Inscrit depuis</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.firstname }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-primary">Détails</a>
+                    <a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-secondary">Editer</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,6 +1,18 @@
 
 liip_imagine:
     filter_sets:
+        xs:
+            quality: 75
+            filters:
+                thumbnail:
+                    size: [50, 50]
+                    mode: outbound
+        min:
+            quality: 75
+            filters:
+                thumbnail:
+                    size: [80, 80]
+                    mode: outbound
         thumb:
             quality: 75
             filters:

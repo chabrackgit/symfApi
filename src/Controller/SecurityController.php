@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\Employee;
-use App\Form\EmployeeType;
+use App\Entity\User;
+
+use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,23 +21,23 @@ class SecurityController extends AbstractController
      */
     public function registration(Request $request, EntityManagerInterface $entityManager, UserPasswordEncoderInterface $encoder)
     {
-        $employee = New Employee();
+        $user = New User();
         
-        $form = $this->createForm(EmployeeType::class, $employee);
+        $form = $this->createForm(UserType::class, $user);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){ 
-            $hash = $encoder->encodePassword($employee, $employee->getPassword());
-            $employee->setPassword($hash);
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($hash);
             
-            $employee->setCreatedAt(new \DateTime())
+            $user->setCreatedAt(new \DateTime())
                      ->setUpdatedAt(new \DateTime())
-                     ->setCreatedUser($this->getUser()->getId())
-                     ->setUpdatedUser($this->getUser()->getId());
+                     ->setCreatedUser(1)
+                     ->setUpdatedUser(1);
 
 
-            $entityManager->persist($employee);
+            $entityManager->persist($user);
             $entityManager->flush();
             
             return $this->redirectToRoute('login');

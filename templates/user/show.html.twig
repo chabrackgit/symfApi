@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Informations utlisateur{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-6">
+            <h1>{{ user.lastname }}, {{ user.firstname }}</h1> 
+        </div>
+        <div class="col-6 my-auto">
+            <a href="{{ path('user_index') }}" class="btn btn-primary float-right">Retour à la liste</a>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-3">
+            <img src="" alt="..." class="img-thumbnail">
+        </div>
+        <div class="col-9">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th>Nom</th>
+                        <td>{{ user.lastname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Prénom</th>
+                        <td>{{ user.firstname }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email</th>
+                        <td>{{ user.email }}</td>
+                    </tr>
+                    <tr>
+                        <th>Inscrit depuis</th>
+                        <td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    </tr>
+                </tbody>
+            </table>
+            {{ include('user/_delete_form.html.twig') }}
+        </div>
+    </div>
+{% endblock %}

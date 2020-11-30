@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}CBk Shop{% endblock %}</title>
         {% block head_css %}
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
         {% endblock %}
@@ -11,7 +11,7 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="{{ path('home') }}">App Cbk</a>
+        <a class="navbar-brand" href="{{ path('home') }}">Boutique Cbk</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -21,25 +21,54 @@
                         <a class="nav-link" href="{{ path('products') }}">Nos produits</a>
                     </li>
                     {% if is_granted('ROLE_ADMIN') %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('employee_index') }}">Espace RH</a>
+                        <li class="nav-item ml-2">
+                            <div class="dropdown show">
+                                <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Espace RH
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="{{ path('user_index') }}">Liste utilisateurs</a>
+                                </div>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('catalog_index') }}">Catalogue</a>
+                        <li class="nav-item ml-2">
+                            <div class="dropdown show">
+                                <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Catalogue
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="{{ path('catalog_index') }}">Liste catalogue</a>
+                                    <a class="dropdown-item" href="{{ path('catalog_new') }}">Créer un catalogue</a>
+                                </div>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('article_index') }}">Articles</a>
-                        </li>
-                    {% elseif is_granted('ROLE_MANAGER') %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('catalog_index') }}">Catalogue</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('article_index') }}">Articles</a>
+                        <li class="nav-item ml-2">
+                            <div class="dropdown show">
+                                <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Articles
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="{{ path('article_index') }}">Liste articles</a>
+                                    <a class="dropdown-item" href="{{ path('article_new') }}">Créer un article</a>
+                                </div>
+                            </div>
                         </li>
                     {% elseif is_granted('ROLE_USER') %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('article_index') }}">Articles</a>
+                        <li class="nav-item ml-2">
+                            <div class="dropdown show">
+                                <a class="btn btn-light dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Articles
+                                </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item" href="{{ path('article_index') }}">Liste articles</a>
+                                    <a class="dropdown-item" href="#">Liste de vos articles</a>
+                                    <a class="dropdown-item" href="{{ path('article_new') }}">Ajouter un article</a>
+                                </div>
+                            </div>
                         </li>
                     {% endif %}                    
                 </ul>
@@ -63,6 +92,15 @@
                     </span>
                 {% else %}
                     <span class="navbar-text">
+                        <a class="nav-link text-center" style="font-size: 0.8em;" href="{{ path('profil_index') }}">Tableau de bord
+                        <br>
+                        <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-house" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                        <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                        </svg>
+                        </a>
+                    </span>
+                    {# <span class="navbar-text">
                         <a class="nav-link text-center" style="font-size: 0.8em;" href="#">Vos commandes
                         <br>
                         <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-card-checklist" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -70,9 +108,9 @@
                             <path fill-rule="evenodd" d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
                         </svg>
                         </a>
-                    </span>
+                    </span> #}
                     <span class="navbar-text">
-                        <a class="nav-link text-center" style="font-size: 0.8em;" href="#">Panier
+                        <a class="nav-link text-center" style="font-size: 0.8em;" href="{{ path('cart_index') }}">Panier
                         <br>
                         <svg width="2em" height="2em" viewBox="0 0 16 16" class="bi bi-cart4" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd" d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5zM3.14 5l.5 2H5V5H3.14zM6 5v2h2V5H6zm3 0v2h2V5H9zm3 0v2h1.36l.5-2H12zm1.11 3H12v2h.61l.5-2zM11 8H9v2h2V8zM8 8H6v2h2V8zM5 8H3.89l.5 2H5V8zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0zm9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0z"/>

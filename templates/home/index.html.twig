@@ -4,25 +4,34 @@
 
 {% block body %}
     <div class="jumbotron">
-    <h1 class="display-4">Bienvenue dans l'AppliCbk, {% if app.user %}{{ (app.user.firstname | capitalize) }} {% endif %}</h1>
-    <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-    <hr class="my-4">
-    <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-    <a class="btn btn-primary btn-lg" href="{{path('products') }}" role="button">En Savoir +</a>
+        <div class="col-7">
+            <h1 class="display-6">Bienvenue dans la boutique CBK, {% if app.user %}{{ (app.user.firstname | capitalize) }} {% endif %}</h1>
+            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+            <hr class="my-4">
+            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+            <a class="btn btn-primary" href="{{path('profil_index')}}" role="button">Espace personnel</a>
+        </div>
+        <div class="col-5">
+        </div>
     </div>
 
     <div class="container mt-4">
         <h3>Nos Derniers Ajouts</h3>
-        <div class="row">
+        <div class="row justify-content-center">
             {% for article in articles %}
-            <div class="card ml-5 mb-4" style="width: 14rem;">
+            <div class="card ml-2 mb-4" style="width: 16rem;">
                 {% if article.filename %}
-                <img src="{{ vich_uploader_asset(article, 'imageFile') | imagine_filter('thumb') }}" width="280px" height"100px" alt="..." class="img-thumbnail">
+                    <img src="{{ vich_uploader_asset(article, 'imageFile') | imagine_filter('thumb') }}" style="width=auto;height:185px;" alt="..." class="img-thumbnail">
+                {% else %}
+                    <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('thumb') }}" alt="..." class="img-thumbnail">
                 {% endif %}
                 <div class="card-body">
                     <h5 class="card-title">{{ article.reference }}</h5>
                     <p class="card-text">{{ article.description }}</p>
-                    <a href="{{ path('product.show', {id: article.id, slug: article.slug})}}" class="btn btn-primary">Details</a>
+                </div>
+                <div class=" row mb-3 ml-3 mr-2 float-right justify-content-between">
+                    <a href="{{ path('product.show', {id: article.id, slug: article.slug})}}" class="btn btn-primary h-75">Details</a>
+                    <p style="font-size:1.5em; color: #007bff;">{{article.price|number_format(2)}} €</p>
                 </div>
             </div>
             {% endfor %}

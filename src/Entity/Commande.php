@@ -25,14 +25,29 @@ class Commande
     private $refCommande;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Employee::class, inversedBy="commandes")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commandes")
      */
-    private $employee;
+    private $user;
 
     /**
      * @ORM\OneToMany(targetEntity=CommandeDetail::class, mappedBy="commande")
      */
     private $commandeDetails;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\Column(type="float")
+     */
+    private $totalCommande;
 
     public function __construct()
     {
@@ -56,14 +71,14 @@ class Commande
         return $this;
     }
 
-    public function getEmployee(): ?Employee
+    public function getUser(): User
     {
-        return $this->employee;
+        return $this->user;
     }
 
-    public function setEmployee(?Employee $employee): self
+    public function setUser(User $user): self
     {
-        $this->employee = $employee;
+        $this->user = $user;
 
         return $this;
     }
@@ -94,6 +109,42 @@ class Commande
                 $commandeDetail->setCommande(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getTotalCommande(): ?float
+    {
+        return $this->totalCommande;
+    }
+
+    public function setTotalCommande(float $totalCommande): self
+    {
+        $this->totalCommande = $totalCommande;
 
         return $this;
     }
