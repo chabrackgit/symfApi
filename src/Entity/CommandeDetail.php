@@ -2,10 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Article;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\CommandeDetailRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=CommandeDetailRepository::class)
@@ -40,10 +41,10 @@ class CommandeDetail
      */
     private $article;
 
-    public function __construct()
-    {
-        $this->article = new ArrayCollection();
-    }
+    // public function __construct()
+    // {
+    //     $this->article = new ArrayCollection();
+    // }
 
     public function getId(): ?int
     {
@@ -63,9 +64,9 @@ class CommandeDetail
     }
 
     /**
-     * @return Collection|Article[]
+     * @return Article
      */
-    public function getArticle(): Collection
+    public function getArticle(): Article
     {
         return $this->article;
     }

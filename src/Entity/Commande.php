@@ -49,6 +49,11 @@ class Commande
      */
     private $totalCommande;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Address::class, inversedBy="commandes")
+     */
+    private $address;
+
     public function __construct()
     {
         $this->commandeDetails = new ArrayCollection();
@@ -145,6 +150,18 @@ class Commande
     public function setTotalCommande(float $totalCommande): self
     {
         $this->totalCommande = $totalCommande;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

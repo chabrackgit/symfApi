@@ -1,0 +1,83 @@
+<div class="card">
+    <div class="card-header">
+        <h5>Mes commandes</h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Reference</th>
+                    <th>Date commande</th>
+                    <th>Total</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for test, myCommande in myCommandes %}
+                <tr>
+                    <td width="20%">{{ myCommande.refCommande }}</td>
+                    <td width="35%">{{ myCommande.createdAt ? myCommande.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                    <td width="20%">{{ myCommande.totalCommande }} €</td>
+                    <td width="25%">
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#monModal{{myCommande.id}}">détails</a>
+                        <div class="modal fade" id="monModal{{myCommande.id}}">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-titre">détails de votre commande {{myCommande.refCommande}}</h4>
+                                        <button type="button" class="close" data-dismiss ="modal">x</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="col-12">
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Article</th>
+                                                        <th>Quantité</th>
+                                                        <th>Total</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for myCommandeDetail in myCommandeDetails %}
+                                                        {% for key, value in myCommandeDetail %}
+                                                            {# {{ key }} : {{ dump(value) }} #}
+                                                        
+                                                            <tr>
+                                                                <td>{{ value.article.reference }}</td>
+                                                                <td>{{ value.quantity }}</td>
+                                                                <td>{{ value.total }}</td>
+                                                            </tr> 
+                                                        {% endfor %}  
+                                                    {% endfor %}                                             
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <hr>
+                                        <div class="col-12">
+                                            <div class="card-body">
+                                                <div class="col-12 mx-auto border rounded mb-3">
+                                                    <h5 class="mt-2">{{ myCommande.address.titre| capitalize }}</h5>
+                                                    <p style="line-height:5px;">{{ myCommande.address.infoaddress }} - {{ myCommande.address.infoautre }}</p>
+                                                    <p style="line-height:5px;">Contact:  0{{ myCommande.address.phone }}</p>
+                                                    <p>{{ myCommande.address.postalCode }} - {{ myCommande.address.city| upper }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-dismiss ="modal">fermer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucune commande</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

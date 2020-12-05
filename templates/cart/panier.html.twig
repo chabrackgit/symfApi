@@ -3,13 +3,13 @@
 {% block title %}Panier v2{% endblock %}
 
 {% block body %}
-    {{ dump(allo) }}
-    {{ dump(addressId) }}
+    {# {{ dump(allo) }}
+    {{ dump(addressId) }} #}
 
     <div class="bg-light p-5">
         <div class="d-flex">
             <div class="p-1"><h4>Récapitulatif de votre panier, {{ app.user.firstname }}</h4></div>
-                <div class="ml-auto mt-4"><a href="{{ path('commande_new', {'ship': addressId})}}" class="btn btn-success">Passer commande </a></div>
+                <div class="ml-auto mt-4"><a href="{{ path('commande_delivery') }}" class="btn btn-primary">Etape 2 - livraison</a></div>
             </div>
         </div>
     {% if items | length > 0 %}
@@ -60,42 +60,5 @@
     {% else %}
         <p>Surprise, c'est vide !</p>
     {% endif %}
-
-    <div class="container">
-        <h3>Adresse de livraison</h3>
-
-        <div class="row">
-            <div class="col-7">
-                {% if myAddresses %}     
-                <div class="card-body">
-                    {% for myAddress in  myAddresses %}
-                    <div class="col-12 mx-auto border rounded mb-3">
-                        <h5 class="mt-2">{{ myAddress.titre| capitalize }}</h5>
-                        <p style="line-height:5px;">{{ myAddress.infoaddress }} - {{ myAddress.infoautre }}</p>
-                        <p style="line-height:5px;">Contact:  0{{ myAddress.phone }}</p>
-                        <p>{{ myAddress.postalCode }} - {{ myAddress.city| upper }}</p>
-                    </div>
-                    {% endfor %}
-                </div> 
-                {% else %}
-                <div class="mt-3 mb-3">
-                    <a href="#" class="btn btn-primary">Ajouter une adresse</a>
-                </div>
-                {% endif %}
-            </div>
-            <div class="col-4 mt-2">
-                {{ form_start(form, {'method': 'POST'}) }}
-                <div class="row">
-                    <div class="col-8">
-                        {{ form_row(form.infoAddress) }}
-                    </div>
-                    <div class="col-3">
-                        <button class="btn btn-primary ml-2">valider</button>
-                    </div>
-                </div>
-                {{ form_end(form)}}
-            </div>
-        </div>
-    </div>
 {% endblock %}
     

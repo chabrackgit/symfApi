@@ -34,18 +34,20 @@ class ArticleController extends AbstractController
 
         $recherche = new ArticleSearchUser();
 
+        $id = $this->getUser()->getId();
+    
         $form = $this->createForm(ArticleSearchUserType::class, $recherche);
 
         $form->handleRequest(($request));
 
-        $products = $paginator->paginate(
-            $articleRepository->findArticleSearchUser($recherche),
+        $articles = $paginator->paginate(
+            $articleRepository->findArticleSearchUser($recherche, $id),
             $request->query->getInt('page', 1),
             10
         );
 
         return $this->render('article/index.html.twig', [
-            'articles' => $products,
+            'articles' => $articles,
             'recherche' => $recherche,
             'form' => $form->createView()
         ]);

@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\Article;
 use Doctrine\ORM\Query;
 use App\Entity\ArticleSearch;
@@ -50,19 +51,20 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * findAllVisible
+     * findArticleSearchUser
      *
      * @return Query[]
      */
-    public function findArticleSearchUser(ArticleSearchUser $search): Query
+    public function findArticleSearchUser(ArticleSearchUser $search, $id): Query
     {
-        $query =  $this->findQuery();
+        $query =  $this->findQueryByUser($id);
 
         if($search->getInfo()){
             
             $query = $query
                         ->andWhere('p.reference LIKE :info')
                         ->setParameter('info', '%'.$search->getInfo().'%');
+                        
         }
 
         return $query->getQuery();  
@@ -88,6 +90,13 @@ class ArticleRepository extends ServiceEntityRepository
     private function findQuery(): QueryBuilder
     {
         return $this->createQueryBuilder('p');
+    }
+
+    private function findQueryByUser($id): QueryBuilder
+    {
+        return $this->createQueryBuilder('p')
+                    ->andWhere('p.createdUser = :id')
+                    ->setParameter('id', $id);;
     }
 
     // /**

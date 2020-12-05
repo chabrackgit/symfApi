@@ -25,4 +25,11 @@ liip_imagine:
                 thumbnail:
                     size: [650, 430]
                     mode: outbound
+        mediumModal:
+            quality: 100
+            filters:
+                thumbnail:
+                    size: [200, 170]
+                    mode: outbound
+        
 

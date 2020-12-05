@@ -105,47 +105,28 @@ class CartController extends AbstractController
      *
      * @route("/v2", name="panierv2")
      */
-    public function testouille(Request $request, CartService $cartService, AddressRepository $addressRepository){
+    public function testouille(Request $request, CartService $cartService){
 
         $panierWithData = $cartService->getFullCart();
 
         $total = $cartService->getTotal($panierWithData);
 
-        $myAddresses = $addressRepository->findBy(['user' => $this->getUser()->getId()]);
 
-        
 
-        $recherche = new AddressOrder();
-
-        $form = $this->createFormBuilder($recherche, array('csrf_protection' => false))
-                    ->add('infoAddress', EntityType::class, [
-                            'class' => Address::class,
-                            'label'=> false,
-                            'query_builder' => function (AddressRepository $er) {
-                                return $er->createQueryBuilder('u')
-                                ->where('u.user = :user')
-                                ->setParameter('user', $this->getUser()->getId())
-                                ->orderBy('u.titre', 'ASC');
-                            },
-                            'choice_label' => 'titre'])
-                    ->getForm();
-
-        $form->handleRequest($request);
-
-        $allo="";
-        $addressId= 0;
-        if(isset($_POST['form'])){
-            $allo ="connard";
-            $addressId = $_POST['form']['infoAddress'] ;
-        }
+        // $allo="";
+        // $addressId= "1";
+        // if(isset($_POST['form'])){
+        //     $allo ="connard";
+        //     $addressId = $_POST['form']['infoAddress'] ;
+        // }
         
         return $this->render('cart/panier.html.twig', [
             'items' => $panierWithData,
             'total' => $total,
-            'myAddresses' => $myAddresses,
-            'form' => $form->createView(),
-            'allo'=> $allo,
-            'addressId'=> $addressId
+            // 'myAddresses' => $myAddresses,
+            // 'form' => $form->createView(),
+            // 'allo'=> $allo,
+            // 'addressId'=> $addressId
         ]);
     }
 

@@ -1,0 +1,52 @@
+<div class="row">
+    <div class="col-9">
+        <h2>{{ article.reference }}</h2> 
+    </div>
+    <div class="col-3 text-right">
+        <B style="font-size:2.5em;" class="text-primary">{{ article.price }} €</B>
+        <br>
+    </div>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+</div>
+    <br>
+<div class="row">
+    <div class="col-6 mt-3">
+        {% if article.filename %}
+            <img src="{{ vich_uploader_asset(article, 'imageFile') | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
+        {% else %}
+            <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
+        {% endif %}
+    </div>
+    <div class="col-6 mt-3">
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>titre</th>
+                    <td>{{ article.reference }}</td>
+                </tr>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ article.description }}</td>
+                </tr>
+                <tr>
+                    <th>Catégorie</th>
+                    <td>{{ article.catalog.reference }}</td>
+                </tr>
+                <tr>
+                    <th>Contact vendeur</th>
+                    <td>{{ vendor.username| capitalize }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="text-center">
+            <a href="{{ path('cart_add', {id: article.id, slug: article.slug})}}" class="btn btn-primary">Ajouter au panier</a>
+            {{ include('best/_contact.html.twig') }}
+        </div>
+    </div>
+</div>
+

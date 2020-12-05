@@ -1,0 +1,88 @@
+<div class="card">
+    <div class="card-header">
+        <h5>Mes articles</h5>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>image</th>
+                    <th>Reference</th>
+                    <th>Description</th>
+                    <th>Catalogue</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for myArticle in myArticles %}
+                <tr>
+                    <td width="20%">
+                        {% if myArticle.filename %}
+                            <img src="{{ vich_uploader_asset(myArticle, 'imageFile') | imagine_filter('xs') }}" alt="..." class="img-thumbnail">
+                        {% else %}
+                            <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('xs') }}" alt="..." class="img-thumbnail">
+                        {% endif %}
+                    </td>
+                    <td width="20%">{{ myArticle.reference }}</td>
+                    <td width="35%">{{ myArticle.description }}</td>
+                    <td width="20%">{{ myArticle.catalog.reference }}</td>
+                    <td width="25%">
+                        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#monModal{{myArticle.id}}">détails</a>
+                        <div class="modal fade" id="monModal{{myArticle.id}}">
+                            <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="modal-titre">détails de votre article: {{myArticle.reference}}</h4>
+                                        <button type="button" class="close" data-dismiss ="modal">x</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col-3">
+                                                {% if myArticle.filename %}
+                                                    <img src="{{ vich_uploader_asset(myArticle, 'imageFile') | imagine_filter('mediumModal') }}" alt="..." class="img-thumbnail">
+                                                {% else %}
+                                                    <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('mediumModal') }}" alt="..." class="img-thumbnail">
+                                                {% endif %}
+                                            </div>
+                                            <div class="col-9">
+                                                <table class="table">
+                                                    <tbody>
+                                                        <tr>
+                                                            <th>Reference</th>
+                                                            <td>{{ myArticle.reference }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Description</th>
+                                                            <td>{{ myArticle.description }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Catégorie</th>
+                                                            <td>{{ myArticle.catalog.reference }}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>Prix</th>
+                                                            <td>{{ myArticle.price }} €</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a href="{{ path('article_edit', {id: myArticle.id, slug: myArticle.slug})}}" class="btn btn-primary">Modifier</a>
+                                        <button type="button" class="btn btn-danger" data-dismiss ="modal">fermer</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucun article</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

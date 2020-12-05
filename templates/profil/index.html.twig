@@ -5,121 +5,22 @@
 {% block body %}
 
 <div class="container">
-    <h3>Bienvenue dans votre espace, {{ app.user.firstname|capitalize }}</h3>
-    <hr>
-
-    <div class="row">
+    <div class="col-7"><h3>Bienvenue dans votre espace, {{ app.user.username|capitalize }}</h3><hr></div>
+    
+    <div class="row mt-5">
         <div class="col-md-7">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Mes commandes</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Reference</th>
-                                <th>Date commande</th>
-                                <th>Total</th>
-                                <th>actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for myCommande in myCommandes %}
-                            <tr>
-                                <td width="20%">{{ myCommande.refCommande }}</td>
-                                <td width="35%">{{ myCommande.createdAt ? myCommande.createdAt|date('d-m-Y H:i:s') : '' }}</td>
-                                <td width="20%">{{ myCommande.totalCommande }} €</td>
-                                <td width="25%">
-                                    <a href="{{ path('article_edit', {id: myCommande.id})}}" class="btn btn-primary">détails</a>
-                                </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="8">Aucun article</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            {{ include('profil/_commande.html.twig') }}
         </div>
         <div class="col-md-5">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Mon Profil</h5>
-                </div>
-                <div class="card-body">
-                </div>
-            </div>
+            {{ include('profil/_profil.html.twig') }}
         </div>    
     </div>
     <div class="row mt-4">
         <div class="col-md-7">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Mes articles</h5>
-                </div>
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>image</th>
-                                <th>Reference</th>
-                                <th>Description</th>
-                                <th>Catalogue</th>
-                                <th>actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        {% for myArticle in myArticles %}
-                            <tr>
-                                <td width="20%">
-                                    {% if myArticle.filename %}
-                                        <img src="{{ vich_uploader_asset(myArticle, 'imageFile') | imagine_filter('xs') }}" alt="..." class="img-thumbnail">
-                                    {% else %}
-                                        <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('xs') }}" alt="..." class="img-thumbnail">
-                                    {% endif %}
-                                </td>
-                                <td width="20%">{{ myArticle.reference }}</td>
-                                <td width="35%">{{ myArticle.description }}</td>
-                                <td width="20%">{{ myArticle.catalog.reference }}</td>
-                                <td width="25%">
-                                    <a href="{{ path('article_edit', {id: myArticle.id, slug: myArticle.slug})}}" class="btn btn-primary">détails</a>
-                                </td>
-                            </tr>
-                        {% else %}
-                            <tr>
-                                <td colspan="8">Aucun article</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            {{ include('profil/_article.html.twig') }}
         </div>
         <div class="col-md-5">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Mes adresses</h5>
-                </div>
-                {% if myAddresses %}
-                    <div class="card-body">
-                        {% for myAddress in  myAddresses %}
-                        <div class="col-12 mx-auto border rounded mb-3">
-                            <h5 class="mt-2">{{ myAddress.titre| capitalize }}</h5>
-                            <p style="line-height:5px;">{{ myAddress.infoaddress }} - {{ myAddress.infoautre }}</p>
-                            <p style="line-height:5px;">Contact:  0{{ myAddress.phone }}</p>
-                            <p>{{ myAddress.postalCode }} - {{ myAddress.city| upper }}</p>
-                        </div>
-                        {% endfor %}
-                    </div>    
-                {% else %}
-                    <div class="col-6 mx-auto mt-3 mb-3">
-                        <a href="#" class="btn btn-primary">Ajouter une adresse</a>
-                    </div>
-                {% endif %}
-            </div>
+            {{ include('profil/_address.html.twig') }}
         </div>    
     </div>
 </div>

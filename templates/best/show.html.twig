@@ -3,51 +3,11 @@
 {% block title %}Article{% endblock %}
 
 {% block body %}
-    <div class="row">
-        <div class="col-6">
-            <h1>{{ article.reference }}</h1> 
-        </div>
-        <div class="col-6 my-auto">
-            <a href="{{ path('products') }}" class="btn btn-primary float-right">Retour à la liste</a>
-        </div>
-    </div>
-    <br>
-    <div class="row">
-        <div class="col-3 mt-3">
-            {% if article.filename %}
-                <img src="{{ vich_uploader_asset(article, 'imageFile') | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
-            {% else %}
-                <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
-            {% endif %}
-        </div>
-        <div class="col-6 mt-3">
-            <table class="table">
-                <tbody>
-                    <tr>
-                        <th>titre</th>
-                        <td>{{ article.reference }}</td>
-                    </tr>
-                    <tr>
-                        <th>Description</th>
-                        <td>{{ article.description }}</td>
-                    </tr>
-                    <tr>
-                        <th>Catégorie</th>
-                        <td>{{ article.catalog.reference }}</td>
-                    </tr>
-                    <tr>
-                        <th>Contact vendeur</th>
-                        <td>{{ vendor.username| capitalize }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="col-3 text-right">
-            <B style="font-size:2.5em;" class="text-primary">{{ article.price }} €</B>
-            <br>
-            <a href="{{ path('cart_add', {id: article.id, slug: article.slug})}}" class="btn btn-primary btn-sm">Ajouter au panier</a>
-        </div>
-    </div>
+
+    {{ include('best/_article.html.twig') }}
+    
+    <hr>
+     {{ include('best/_comment.html.twig') }}
 
     
 {% endblock %}

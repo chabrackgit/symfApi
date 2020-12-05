@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande delivery{% endblock %}
+
+{% block body %}
+    <h1>Adresse de livraison</h1>
+    {% if myAddresses %} 
+    <h4>afin de finaliser votre commande, merci de sélectionner votre adresse de livraison.</h4>
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-6">
+                <h5> Vos adresses enregistrés</h5>    
+                <div class="card-body">
+                    {% for myAddress in  myAddresses %}
+                    <div class="col-12 mx-auto border rounded mb-3">
+                        <h5 class="mt-2">{{ myAddress.titre| capitalize }}</h5>
+                        <p style="line-height:5px;">{{ myAddress.infoaddress }} - {{ myAddress.infoautre }}</p>
+                        <p style="line-height:5px;">Contact:  0{{ myAddress.phone }}</p>
+                        <p>{{ myAddress.postalCode }} - {{ myAddress.city| upper }}</p>
+                    </div>
+                    {% endfor %}
+                </div> 
+            </div>
+            <div class="col-6">
+                <h5> Sélection adresse </h5>
+                {{ form_start(form, {'method': 'GET'}) }}
+                <div class="row mt-4">
+                    <div class="col-7">
+                        {{ form_row(form.infoAddress) }}
+                    </div>
+                    <div class="col-5">
+                        <button type="submit" class="btn btn-primary">valider adresse</button>                        
+                    </div>
+                </div>
+                {{ form_end(form)}}
+                <hr>
+                <h5> Adresse sélectionnée</h5>
+                {% if addressId == 0 %}
+                    <p>aucune adresse sélectionnée</p>
+                {% else %}
+
+                    <div class="card-body">
+                        <div class="col-12 mx-auto border rounded">
+                            <h5 class="mt-2">{{ address.titre| capitalize }}</h5>
+                            <p style="line-height:5px;">{{ address.infoaddress }} - {{ address.infoautre }}</p>
+                            <p style="line-height:5px;">Contact:  0{{ address.phone }}</p>
+                            <p>{{ address.postalCode }} - {{ address.city| upper }}</p>
+                        </div>
+                    </div> 
+                {% endif %}
+                
+
+                <hr>
+                <div class="col-6 mx-auto">
+                    {% if addressId == 0 %}
+                        <a href="{{ path('commande_new', {'ship': addressId})}}" class="btn btn-success disabled">Passer commande </a>
+                    {% else %}
+                        <a href="{{ path('commande_new', {'ship': addressId})}}" class="btn btn-success">Passer commande </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+    <h4>afin de finaliser votre commande, merci d'ajouter une adresse de livraison.</h4>
+            <div class="mt-3 mb-3">
+                <a href="{{ path('commande_deliveryNew')}}" class="btn btn-primary">Ajouter une adresse</a>
+            </div>
+        {% endif %}
+    </div>
+
+{% endblock %}
