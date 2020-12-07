@@ -20,8 +20,8 @@
         <div class="row justify-content-center">
             {% for article in articles %}
             <div class="card ml-2 mb-4" style="width: 16rem;">
-                {% if article.filename %}
-                    <img src="{{ vich_uploader_asset(article, 'imageFile') | imagine_filter('thumb') }}" style="width=auto;height:185px;" alt="..." class="img-thumbnail">
+                {% if article.picture %}
+                    <img src="{{ vich_uploader_asset(article.picture, 'imageFile') | imagine_filter('thumb') }}" style="width=auto;height:185px;" alt="..." class="img-thumbnail">
                 {% else %}
                     <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('thumb') }}" alt="..." class="img-thumbnail">
                 {% endif %}

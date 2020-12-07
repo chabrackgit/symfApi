@@ -3,11 +3,19 @@
 {% block title %}Article{% endblock %}
 
 {% block body %}
-
+    
     {{ include('best/_article.html.twig') }}
     
     <hr>
      {{ include('best/_comment.html.twig') }}
 
     
+{% endblock %}
+
+{% block javascripts %}
+
+    <script>
+        console.log('ca marche');
+    </script>
+
 {% endblock %}

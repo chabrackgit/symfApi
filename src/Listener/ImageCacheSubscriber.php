@@ -3,6 +3,7 @@
 namespace App\Listener;
 
 use App\Entity\Article;
+use App\Entity\Picture;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
 use Liip\ImagineBundle\Imagine\Cache\CacheManager;
@@ -38,7 +39,7 @@ class ImageCacheSubscriber implements EventSubscriber{
     {
         $entity = $args->getEntity();
 
-        if(!$entity instanceof Article){
+        if(!$entity instanceof Picture){
             return;
         }
 
@@ -49,7 +50,7 @@ class ImageCacheSubscriber implements EventSubscriber{
     {
         $entity = $args->getEntity();
 
-        if(!$entity instanceof Article){
+        if(!$entity instanceof Picture){
             return;
         }
 

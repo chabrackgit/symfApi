@@ -12,7 +12,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @IsGranted("ROLE_MANAGER")
  * @Route("/profile/catalog")
  */
 class CatalogController extends AbstractController

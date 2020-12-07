@@ -15,10 +15,12 @@
     <br>
 <div class="row">
     <div class="col-6 mt-3">
-        {% if article.filename %}
-            <img src="{{ vich_uploader_asset(article, 'imageFile') | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
-        {% else %}
+       {% if article.pictures is empty %}
             <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
+        {% else %}
+            {% for picture in article.pictures %}
+                <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
+            {% endfor %}
         {% endif %}
     </div>
     <div class="col-6 mt-3">

@@ -2,20 +2,17 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Symfony\Component\Validator\Constraints as Assert;
+use App\Entity\Picture;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ArticleRepository;
-use Symfony\Component\HttpFoundation\File\File;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ArticleRepository")
- * @Vich\Uploadable()
  */
 class Article
 {
@@ -35,26 +32,6 @@ class Article
      * @ORM\Column(type="text")
      */
     private $description;
-
-    
-    /**
-     * filename
-     *
-     * @var string|null
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $filename;
-
-    /**
-     * imageFile
-     *
-     * @var File|null
-     * @Vich\UploadableField(mapping="article_image", fileNameProperty="filename")
-     * @Assert\Image(
-     *      mimeTypes="image/jpeg" 
-     * )
-     */
-    private $imageFile;
 
     /**
      * @ORM\Column(type="datetime")
@@ -97,10 +74,23 @@ class Article
      */
     private $comments;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Picture::class, mappedBy="article", orphanRemoval=true, cascade={"persist"})
+     */
+    private $pictures;
+    
+    /**
+     * @Assert\All({
+     *      @Assert\Image(mimeTypes="image/jpeg")
+     * })
+     */
+    private $pictureFiles;
+
     public function __construct()
     {
         $this->commandeDetails = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -197,56 +187,6 @@ class Article
         return $this;
     }
 
-    /**
-     * Get filename
-     *
-     * @return  string|null
-     */ 
-    public function getFilename(): ?string
-    {
-        return $this->filename;
-    }
-
-    /**
-     * Set filename
-     *
-     * @param  string|null  $filename  filename
-     *
-     * @return  Article
-     */ 
-    public function setFilename(?string $filename): Article
-    {
-        $this->filename = $filename;
-
-        return $this;
-    }
-
-    /**
-     * Get imageFile
-     *
-     * @return  File|null
-     */ 
-    public function getImageFile(): ?File
-    {
-        return $this->imageFile;
-    }
-
-    /**
-     * Set imageFile
-     *
-     * @param  File|null  $imageFile  imageFile
-     *
-     * @return  Article
-     */ 
-    public function setImageFile(?File $imageFile): Article
-    {
-        $this->imageFile = $imageFile;
-        if ($this->imageFile instanceof UploadedFile) {
-            $this->updatedAt = new \DateTime('now');
-        }
-        return $this;
-    }
-
     public function getPrice(): ?float
     {
         return $this->price;
@@ -316,6 +256,69 @@ class Article
             }
         }
 
+        return $this;
+    }
+
+    /**
+     * @return Collection|Picture[]
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function getPicture(): ?Picture
+    {
+        if($this->pictures->isEmpty()){
+            return null;
+        }
+        return $this->pictures->first();   
+        
+    }
+
+    public function addPicture(Picture $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(Picture $picture): self
+    {
+        if ($this->pictures->removeElement($picture)) {
+            // set the owning side to null (unless already changed)
+            if ($picture->getArticle() === $this) {
+                $picture->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */ 
+    public function getPictureFiles()
+    {
+        return $this->pictureFiles;
+    }
+
+    /**
+     * @param mixed $pictureFiles
+     *
+     * @return  Article
+     */ 
+    public function setPictureFiles($pictureFiles): self
+    {
+        foreach($pictureFiles as $pictureFile){
+            $picture = new Picture();
+            $picture->setImageFile($pictureFile);
+            $this->addPicture($picture);
+        }
+        $this->pictureFiles = $pictureFiles;
         return $this;
     }
 }

@@ -25,6 +25,7 @@ class ArticleSearchType extends AbstractType
             ])
             ->add('infoCatalog', EntityType::class, [
                 'class' => Catalog::class,
+                'required' => false,
                 'label'=> false,
                 'choice_label' => 'reference'])
         ;

@@ -30,7 +30,7 @@ class Commande
     private $user;
 
     /**
-     * @ORM\OneToMany(targetEntity=CommandeDetail::class, mappedBy="commande")
+     * @ORM\OneToMany(targetEntity=CommandeDetail::class, mappedBy="commande", orphanRemoval=true, cascade={"persist"})
      */
     private $commandeDetails;
 

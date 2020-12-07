@@ -18,12 +18,18 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-3">
-            {% if article.filename %}
-                <img src="{{ vich_uploader_asset(article, 'imageFile') | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
-            {% endif %}
+        <div class="col-6">
+            <div data-slider>
+                {% if article.pictures is empty %}
+                <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
+                {% else %}
+                    {% for picture in article.pictures %}
+                        <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
+                    {% endfor %}
+                {% endif %}
+            </div>
         </div>
-        <div class="col-9">
+        <div class="col-6">
             <table class="table">
                 <tbody>
                     <tr>

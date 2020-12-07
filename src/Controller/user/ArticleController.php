@@ -71,9 +71,10 @@ class ArticleController extends AbstractController
                      ->add('price', MoneyType::class, [
                         'label'=>'Prix'
                      ])
-                     ->add('imageFile', FileType::class, [
+                     ->add('pictureFiles', FileType::class, [
                         'label' =>'Image (facultatif)',
-                        'required' => false
+                        'required' => false,
+                        'multiple' => true
                      ])
                      ->add('save', SubmitType::class, ['label' => 'Créer article'])
                      ->getForm();
@@ -126,10 +127,11 @@ class ArticleController extends AbstractController
                     ->add('price', MoneyType::class, [
                         'label'=>'Prix'
                     ])
-                    ->add('imageFile', FileType::class, [
-                        'label' =>'Image',
-                        'required' => false
-                    ])
+                    ->add('pictureFiles', FileType::class, [
+                        'label' =>'Image (facultatif)',
+                        'required' => false,
+                        'multiple' => true
+                     ])
                     ->add('save', SubmitType::class, ['label' => 'Mettre à jour'])
                     ->getForm();
 
