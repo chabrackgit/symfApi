@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h5>Mes commandes</h5>
+        <h5>Mes commandes ({{ myCommandes|length }})</h5>
     </div>
     <div class="card-body">
         <table class="table">
@@ -38,17 +38,13 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {% for myCommandeDetail in myCommandeDetails %}
-                                                        {% for key, value in myCommandeDetail %}
-                                                            {# {{ key }} : {{ dump(value) }} #}
-                                                        
-                                                            <tr>
-                                                                <td>{{ value.article.reference }}</td>
-                                                                <td>{{ value.quantity }}</td>
-                                                                <td>{{ value.total }}</td>
-                                                            </tr> 
-                                                        {% endfor %}  
-                                                    {% endfor %}                                             
+                                                    {% for commandeDetail in myCommande.commandeDetails %}
+                                                    <tr>
+                                                        <td>{{ commandeDetail.article.reference }}</td>
+                                                        <td>{{ commandeDetail.quantity }}</td>
+                                                        <td>{{ commandeDetail.total|number_format(2) }} €</td>
+                                                    </tr>  
+                                                    {% endfor %}        
                                                 </tbody>
                                             </table>
                                         </div>

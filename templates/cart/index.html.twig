@@ -5,7 +5,7 @@
 {% block body %}
     <div class="bg-light p-3">
         <div class="d-flex">
-            <div class="p-3"><h1>Panier de {{ app.user.firstname }}</h1></div>
+            <div class="p-3"><h1>Votre panier, {{ app.user.firstname }}</h1></div>
             <div class="ml-auto p-3"><p style="font-size:2.5em;"><B>{{ total }} €</B></p></div>
         </div>
     </div>
@@ -32,12 +32,14 @@
                 {% for key, item in items %}
                 <tr>
                     <td>
-                        {% if item.article.filename %}
-                            <img src="{{ vich_uploader_asset(item.article, 'imageFile') | imagine_filter('min') }}" alt="..." class="img-thumbnail">
+                        {% if item.article.picture %}
+                            <img src="{{ vich_uploader_asset(item.article.picture, 'imageFile') | imagine_filter('min') }}">
+                        {% else %}
+                            <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('min') }}">
                         {% endif %}
                     </td>
                     <td>{{ item.article.reference }}</td>
-                    <td>{{ item.article.price }} €</td>
+                    <td>{{ item.article.price|number_format(2) }} €</td>
                     <td>
                         <form action="{{ path('panierv2') }}" method="post">
                             <input type="text" class="form-control w-25" value="{{ item.quantity }}" name="key{{ key }}">

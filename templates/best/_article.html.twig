@@ -3,7 +3,7 @@
         <h2>{{ article.reference }}</h2> 
     </div>
     <div class="col-3 text-right">
-        <B style="font-size:2.5em;" class="text-primary">{{ article.price }} €</B>
+        <B style="font-size:2.5em;" class="text-primary">{{ article.price|number_format(2) }} €</B>
         <br>
     </div>
     {% for message in app.flashes('success') %}
@@ -15,13 +15,15 @@
     <br>
 <div class="row">
     <div class="col-6 mt-3">
-       {% if article.pictures is empty %}
-            <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
+        <div data-slider>
+        {% if article.pictures is empty %}
+            <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('medium') }}">
         {% else %}
             {% for picture in article.pictures %}
-                <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
+                <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('medium') }}">
             {% endfor %}
         {% endif %}
+        </div>
     </div>
     <div class="col-6 mt-3">
         <table class="table">

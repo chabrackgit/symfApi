@@ -6,7 +6,7 @@
     <div class="jumbotron">
         <div class="container">
             {{ form_start(form) }}
-            <div class="form-row">
+            <div class="form-row ml-5">
                 <div class="col-5">
                     {{ form_row(form.info) }}
                 </div>
@@ -26,76 +26,51 @@
             {{ form_end(form) }}
         </div>
     </div>
-
     {% for message in app.flashes('info') %}
         <div class="alert alert-success">
             {{ message }}, consultez votre <a href="{{ path('cart_index') }}">panier</a>
         </div>
     {% endfor %}
+    <div class="row justify-content-between">
+        {% for article in articles %}
+        <div class="card ml-2 mb-4" style="width: 35em;">
+        <div class="card-header">
+            <div class="row justify-content-between">
+                    <p style="font-size:1em; color: #007bff;">En stock</p>
+                    <p style="font-size:1.4em; color: #007bff;">{{article.price|number_format(2)}} €</p>
+                </div>        
+            </div>
+        <div class="card-body">
+            <div class="row justify-content-between">
+                <div class="col-6">
+                    {% if article.picture %}
+                    <img src="{{ vich_uploader_asset(article.picture, 'imageFile') | imagine_filter('thumb') }}" style="width=auto;height:185px;" class="img-thumbnail rounded">
+                    {% else %}
+                    <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('thumb') }}">
+                    {% endif %}
+                </div>
+                <div class="col-6">
+                    <h5 class="card-title"><a href="{{ path('product.show', {id: article.id, slug: article.slug})}}">{{ article.reference }}</a></h5></br><br>
+                    <a href="{{ path('cart_add', {id: article.id, slug: article.slug})}}" class="btn btn-primary h-10 float-left">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
+                        <path fill-rule="evenodd" d="M8.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 .5-.5z"/>
+                    </svg> Ajouter au panier
+                    </a>
+                </div>
+            </div>
+            <p class="card-text"><small class="text-muted">{{ article.description|u.truncate(200, '...')}}</small></p>
 
-    <div class="table-responsive">
-  <!--Table-->
-    <table class="table table-striped">
+        </div>
 
-    <!--Table head-->
-    <thead>
-      <tr>
-        <th>Image</th>
-        <th>Reference</th>
-        <th>Description</th>
-        <th>Prix</th>
-        <th>Catalogue</th>
-        <th>actions</th>
-      </tr>
-    </thead>
-    <!--Table head-->
-
-    <!--Table body-->
-    <tbody>
-    {% for article in articles %}
-        <tr>
-            <td>
-                {% if article.picture %}
-                    <img src="{{ vich_uploader_asset(article.picture, 'imageFile') | imagine_filter('min') }}" alt="..." class="img-thumbnail">
-                {% else %}
-                    <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('min') }}" alt="..." class="img-thumbnail">
-                {% endif %}
-            </td>
-            <td><a href="{{ path('product.show', {id: article.id, slug: article.slug})}}">{{ article.reference }}</a></td>
-            <td>{{ article.description }}</td>
-            <td>{{ article.price }} €</td>
-            <td>{{ article.catalog.reference }}</td>
-            <td>
-                <a href="{{ path('product.show', {id: article.id, slug: article.slug})}}" class="btn btn-primary">
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-info-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                    <path fill-rule="evenodd" d="M14 1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-                    <path d="M8.93 6.588l-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588z"/>
-                    <circle cx="8" cy="4.5" r="1"/>
-                </svg>
-                </a>
-                <a href="{{ path('cart_add', {id: article.id, slug: article.slug})}}" class="btn btn-primary">
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-cart-plus" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l1.313 7h8.17l1.313-7H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zm7 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/>
-                    <path fill-rule="evenodd" d="M8.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 .5-.5z"/>
-                </svg>
-                </a>
-            </td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="8">Aucune information correspondant à votre recherche : <b>{{ recherche.info }}</b></td>
-        </tr>
-    {% endfor %}
-    </tbody>
-    <!--Table body-->
-  </table>
-  <!--Table-->
-    <div class="pagination justify-content-center mt-4">
+            <div class="card-footer">
+                Catégorie: {{ article.catalog.reference }}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="pagination justify-content-center mt-5">
         {{ knp_pagination_render(articles) }}
     </div>
 </div>
-
-
-
 {% endblock %}

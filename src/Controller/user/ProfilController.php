@@ -26,17 +26,10 @@ class ProfilController extends AbstractController
         $myCommandes = $commandeRepository->findBy(['user' => $id], ['id' => 'DESC']);
         $myAddresses = $addressRepository->findBy(['user' => $id]);
 
-        for($i=0; $i<count($myCommandes); $i++){
-            $myCommandeDetails[$i] = $commandeDetailRepository->findBy(['commande' => $myCommandes[$i]]);
-            // $myCommandeDetails[$i] = $myCommandes[$i]->getCommandeDetails();
-        }
-
         return $this->render('profil/index.html.twig', [
             'myArticles'=> $myArticles,
             'myAddresses' => $myAddresses,
-            'myCommandes' => $myCommandes,
-            'myCommandeDetails' => $myCommandeDetails
-
+            'myCommandes' => $myCommandes
         ]);
     }
 }

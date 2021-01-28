@@ -3,7 +3,8 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <div class="jumbotron">
+<div class="jumbotron">
+    <div class="row">
         <div class="col-7">
             <h1 class="display-6">Bienvenue dans la boutique CBK, {% if app.user %}{{ (app.user.firstname | capitalize) }} {% endif %}</h1>
             <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
@@ -11,23 +12,23 @@
             <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
             <a class="btn btn-primary" href="{{path('profil_index')}}" role="button">Espace personnel</a>
         </div>
-        <div class="col-5">
-        </div>
     </div>
-
+</div>
     <div class="container mt-4">
         <h3>Nos Derniers Ajouts</h3>
         <div class="row justify-content-center">
             {% for article in articles %}
             <div class="card ml-2 mb-4" style="width: 16rem;">
-                {% if article.picture %}
-                    <img src="{{ vich_uploader_asset(article.picture, 'imageFile') | imagine_filter('thumb') }}" style="width=auto;height:185px;" alt="..." class="img-thumbnail">
-                {% else %}
-                    <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('thumb') }}" alt="..." class="img-thumbnail">
-                {% endif %}
+                <div class="morph">
+                    {% if article.picture %}
+                        <div><a href="{{ path('product.show', {id: article.id, slug: article.slug})}}"><img src="{{ vich_uploader_asset(article.picture, 'imageFile') | imagine_filter('thumb') }}" style="width=auto;height:200px;" alt="..." class="img-thumbnail"></a></div>
+                    {% else %}
+                        <div><img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('thumb') }}" alt="..." class="img-thumbnail"></div>
+                    {% endif %}
+                </div>
                 <div class="card-body">
                     <h5 class="card-title">{{ article.reference }}</h5>
-                    <p class="card-text">{{ article.description }}</p>
+                    <p class="card-text">{{ article.description|u.truncate(100, '...')}}</p>
                 </div>
                 <div class=" row mb-3 ml-3 mr-2 float-right justify-content-between">
                     <a href="{{ path('product.show', {id: article.id, slug: article.slug})}}" class="btn btn-primary h-75">Details</a>

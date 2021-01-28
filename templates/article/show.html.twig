@@ -18,18 +18,18 @@
     </div>
     <br>
     <div class="row">
-        <div class="col-6">
+        <div class="col-6 mx-auto">
             <div data-slider>
                 {% if article.pictures is empty %}
-                <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
+                <img src="{{ '/images/articles/emptyarticle.jpg' | imagine_filter('medium') }}">
                 {% else %}
                     {% for picture in article.pictures %}
-                        <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('medium') }}" alt="..." class="img-thumbnail">
+                        <img src="{{ vich_uploader_asset(picture, 'imageFile') | imagine_filter('medium') }}">
                     {% endfor %}
                 {% endif %}
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-5">
             <table class="table">
                 <tbody>
                     <tr>
